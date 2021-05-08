@@ -9,7 +9,7 @@
         </template>
         <v-card>
           <v-card-title>
-            <span class="headline">User Profile</span>
+            <span class="headline">Tarix intervali</span>
           </v-card-title>
           <v-card-text>
             <v-menu
@@ -23,9 +23,9 @@
             >
               <template v-slot:activator="{ on, attrs }">
                 <v-text-field
-                  style="width: 150px"
+                  style="max-width: 300px;"
                   v-model="date"
-                  label="Picker in menu"
+                  label="Baslangic tarixi"
                   prepend-icon="mdi-calendar"
                   readonly
                   v-bind="attrs"
@@ -70,14 +70,14 @@
         <template v-slot:top>
           <v-text-field
             v-model="search"
-            label="Search.."
+            label="Axtar.."
             class="mx-4"
           ></v-text-field>
         </template>
 
         <template v-slot:item.actions="{ item }">
-          <v-icon small class="mr-2" @click="editItem(item)"> pencil </v-icon>
-          <v-icon small @click="deleteItem(item)"> delete </v-icon>
+          <v-icon class="mr-2" @click="editItem(item)">mdi-pencil</v-icon>
+          <v-icon @click="deleteItem(item)">mdi-delete</v-icon>
         </template>
       </v-data-table>
     </div>
@@ -91,50 +91,57 @@
 </template>
 
 <script>
-import axios from 'axios'
+import axios from "axios";
 
 export default {
-  data () {
+  data() {
     return {
       dialog_query: false,
-      search: '',
+      search: "",
 
       page: 1,
       pageCount: 0,
       itemsPerPage: 10,
 
       headers: [
-        { text: 'Id', value: 'id' },
-        { text: 'Ad', value: 'ad' },
-        { text: 'Vahid', value: 'vahid', filterable: false },
-        { text: 'Miqdar', value: 'miqdar', filterable: false },
-        { text: 'Tarix', value: 'anbar_tarix', filterable: true },
+        { text: "Id", value: "id" },
+        { text: "Ad", value: "ad" },
+        { text: "Vahid", value: "vahid", filterable: false },
+        { text: "Miqdar", value: "miqdar", filterable: false },
+        { text: "Tarix", value: "anbar_tarix", filterable: true },
         {
-          text: 'Əməliyyat',
-          value: 'action',
+          text: "Əməliyyat",
+          value: "actions",
           filterable: false,
-          sortable: false
-        }
+          sortable: false,
+        },
       ],
-      tabledata: []
-    }
+      tabledata: [],
+    };
   },
 
   methods: {
-    refreshData () {
-      axios.get('http://localhost:9999/anbarout/getall').then((result) => {
-        this.tabledata = result.data
-      })
-    }
+    refreshData() {
+      axios.get("http://localhost:9999/anbarout/getall").then((result) => {
+        this.tabledata = result.data;
+      });
+    },
+
+    editItem(item) {
+      return item;
+    },
+    deleteItem(item) {
+      return item;
+    },
   },
 
-  created () {
-    axios.get('http://localhost:9999/anbarout/getall').then((result) => {
-      this.tabledata = result.data
-      console.log(result.data)
-    })
-  }
-}
+  created() {
+    axios.get("http://localhost:9999/anbarout/getall").then((result) => {
+      this.tabledata = result.data;
+      console.log(result.data);
+    });
+  },
+};
 </script>
 
 <style scoped lang="scss">
