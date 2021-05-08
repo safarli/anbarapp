@@ -14,7 +14,7 @@
 
     <v-card class="d-flex justify-center flex-wrap">
       <v-btn class="ma-2" v-for="i in 8" :key="i">
-        <v-icon>add</v-icon>
+        <v-icon>mdi-plus</v-icon>
       </v-btn>
     </v-card>
 
