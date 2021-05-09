@@ -1,9 +1,10 @@
 <template>
   <v-app id="inspire">
+    <!-- //! DRAWER LEFT -->
     <v-navigation-drawer app v-model="drawer">
       <v-list-item>
         <v-list-item-content>
-          <v-list-item-title class="title">Texnokom MMC </v-list-item-title>
+          <v-list-item-title class="title">WAVEVO Tech</v-list-item-title>
           <v-list-item-subtitle>
             2010-cu ilden xidmetinizde
           </v-list-item-subtitle>
@@ -13,9 +14,15 @@
       <v-divider></v-divider>
 
       <v-list dense nav>
-        <v-list-item v-for="item in items" :key="item.title" link :to="item.to">
+        <v-list-item
+        active-class="childcolor"
+          v-for="item in items"
+          :key="item.title"
+          link
+          :to="item.to"
+        >
           <v-list-item-icon>
-            <v-icon>{{ item.icon }}</v-icon>
+            <v-icon id="myicon">{{ item.icon }}</v-icon>
           </v-list-item-icon>
 
           <v-list-item-content>
@@ -24,7 +31,9 @@
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
+    <!-- //! DRAWER LEFT END -->
 
+    <!-- //! DRAWER RIGHT 1 -->
     <v-navigation-drawer fixed right v-model="r_drawers[0].show">
       <v-toolbar elevation="0">
         <v-spacer></v-spacer>
@@ -33,7 +42,9 @@
         </v-btn>
       </v-toolbar>
     </v-navigation-drawer>
+    <!-- //! DRAWER RIGHT 1 END -->
 
+    <!-- //! DRAWER RIGHT 2 START-->
     <v-navigation-drawer fixed right v-model="r_drawers[1].show">
       <v-toolbar elevation="0">
         <v-spacer></v-spacer>
@@ -43,12 +54,17 @@
       </v-toolbar>
 
       <v-list nav>
-        <v-list-item link class="teal lighten-5" v-for="i in 8" :key="i">
+        <v-list-item
+          link
+          class="teal lighten-5"
+          v-for="brand in brands"
+          :key="brand"
+        >
           <v-list-item-icon>
-            <v-icon color="teal">mdi-apple</v-icon>
+            <v-icon color="teal">{{ brand.icon }}</v-icon>
           </v-list-item-icon>
           <v-list-item-content>
-            <v-list-item-title>Menu</v-list-item-title>
+            <v-list-item-title>{{ brand.title }}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list>
@@ -73,11 +89,13 @@
         </v-list>
       </template>
     </v-navigation-drawer>
+    <!-- //! DRAWER RIGHT 2 END -->
 
+    <!-- //! APP-BAR START-->
     <v-app-bar app dark color="#00897b">
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
 
-      <v-app-bar-title>Anbar - Texnokom</v-app-bar-title>
+      <v-app-bar-title>SMS (Anbar MS)</v-app-bar-title>
 
       <v-spacer></v-spacer>
 
@@ -95,17 +113,20 @@
       </v-menu>
 
       <v-btn icon @click="r_drawers[0].show = !r_drawers[0].show">
-        <v-icon>mdi-heart</v-icon>
+        <v-icon>mdi-bank</v-icon>
       </v-btn>
       <v-btn icon @click="r_drawers[1].show = !r_drawers[1].show">
         <v-icon>mdi-dots-vertical</v-icon>
       </v-btn>
     </v-app-bar>
+    <!-- //! APP-BAR END -->
 
+    <!-- //! MAIN START-->
     <v-main>
       <v-divider></v-divider>
       <router-view></router-view>
     </v-main>
+    <!-- //! MAIN END -->
   </v-app>
 </template>
 
@@ -114,15 +135,26 @@ export default {
   data: () => ({
     r_drawers: [{ show: false }, { show: false }],
     drawer: null,
+    right: null,
     items: [
       { title: "Ümümi Panel", icon: "mdi-view-dashboard", to: "/" },
       { title: "Inventar", icon: "mdi-database", to: "/inventar" },
+      { title: "Mədaxil", icon: "mdi-bank-transfer-in", to: "/medaxil" },
+      { title: "Məxaric", icon: "mdi-bank-transfer-out", to: "/mexaric" },
+      { title: "Nəzarət", icon: "mdi-cctv", to: "/nezaret" },
+      { title: "Cədvəllər", icon: "mdi-chart-bar", to: "/cedveller" },
+      { title: "QR-Code", icon: "mdi-data-matrix", to: "/qrcode" },
+      { title: "Export-CSV", icon: "mdi-microsoft-excel", to: "/exportexcel" },
+      { title: "Barkod", icon: "mdi-barcode-scan", to: "/barkod" },
       { title: "Tənzimləmələr", icon: "mdi-cog", to: "/settings" },
-      { title: "Mədaxil", icon: "mdi-try-arrow-down", to: "/medaxil" },
-      { title: "Məxaric", icon: "mdi-try-arrow-up", to: "/mexaric" },
-      { title: "Apple", icon: "mdi-arrow-up-thin-circle-outline", to: "/apple" },
     ],
-    right: null,
+    brands: [
+      { title: "Apple", icon: "mdi-apple" },
+      { title: "Android", icon: "mdi-android" },
+      { title: "Google", icon: "mdi-google" },
+      { title: "FreeBSD", icon: "mdi-freebsd" },
+      { title: "Steam", icon: "mdi-steam" },
+    ],
   }),
   methods: {
     closeAllDrws() {
@@ -136,6 +168,12 @@ export default {
 
 <style lang="scss">
 @import "@/scss/main.scss";
+
+.childcolor{
+  & #myicon{
+    color: tomato;
+  }
+}
 
 /* width */
 ::-webkit-scrollbar {

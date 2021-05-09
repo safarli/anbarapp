@@ -1,11 +1,11 @@
 <template>
   <div>
     <v-toolbar class="mb-4">
-      <v-btn @click="refreshData()">Refresh Data</v-btn>
+      <v-btn @click="refreshData()">Yenilə</v-btn>
 
       <v-dialog v-model="dialog_query" persistent max-width="400px">
         <template v-slot:activator="{ on, attrs }">
-          <v-btn color="primary" dark v-bind="attrs" v-on="on">Query</v-btn>
+          <v-btn color="primary" dark v-bind="attrs" v-on="on">SORĞU</v-btn>
         </template>
         <v-card>
           <v-card-title>
