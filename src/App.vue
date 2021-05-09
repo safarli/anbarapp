@@ -13,20 +13,29 @@
 
       <v-divider></v-divider>
 
-      <v-list dense nav>
+      <v-list v-bind="densify" nav>
         <v-list-item
-        active-class="childcolor"
+          class="grey lighten-5"
+          active-class="childcolor"
           v-for="item in items"
           :key="item.title"
           link
           :to="item.to"
         >
           <v-list-item-icon>
-            <v-icon id="myicon">{{ item.icon }}</v-icon>
+            <v-icon size="28px" id="myicon">{{ item.icon }}</v-icon>
           </v-list-item-icon>
 
           <v-list-item-content>
-            <v-list-item-title>{{ item.title }}</v-list-item-title>
+            <v-list-item-title
+              :style="{
+                'font-size': fontSize + 'px',
+                'line-height': 1.6,
+                'font-weight': 400,
+              }"
+            >
+              {{ item.title }}
+            </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list>
@@ -56,12 +65,12 @@
       <v-list nav>
         <v-list-item
           link
-          class="teal lighten-5"
           v-for="brand in brands"
-          :key="brand"
+          :key="brand.title"
+          class="grey lighten-5"
         >
           <v-list-item-icon>
-            <v-icon color="teal">{{ brand.icon }}</v-icon>
+            <v-icon color="amber darken-2">{{ brand.icon }}</v-icon>
           </v-list-item-icon>
           <v-list-item-content>
             <v-list-item-title>{{ brand.title }}</v-list-item-title>
@@ -123,6 +132,7 @@
 
     <!-- //! MAIN START-->
     <v-main>
+      <p>{{ printText() }}</p>
       <v-divider></v-divider>
       <router-view></router-view>
     </v-main>
@@ -138,14 +148,14 @@ export default {
     right: null,
     items: [
       { title: "Ümümi Panel", icon: "mdi-view-dashboard", to: "/" },
-      { title: "Inventar", icon: "mdi-database", to: "/inventar" },
+      { title: "İnventar", icon: "mdi-database", to: "/inventar" },
       { title: "Mədaxil", icon: "mdi-bank-transfer-in", to: "/medaxil" },
       { title: "Məxaric", icon: "mdi-bank-transfer-out", to: "/mexaric" },
       { title: "Nəzarət", icon: "mdi-cctv", to: "/nezaret" },
       { title: "Cədvəllər", icon: "mdi-chart-bar", to: "/cedveller" },
       { title: "QR-Code", icon: "mdi-data-matrix", to: "/qrcode" },
       { title: "Export-CSV", icon: "mdi-microsoft-excel", to: "/exportexcel" },
-      { title: "Barkod", icon: "mdi-barcode-scan", to: "/barkod" },
+      { title: "Barkod", icon: "mdi-barcode-scan", to: "/barcode" },
       { title: "Tənzimləmələr", icon: "mdi-cog", to: "/settings" },
     ],
     brands: [
@@ -162,6 +172,34 @@ export default {
         d.show = false;
       }
     },
+    printText() {
+      console.log("Salam from method");
+      return "salam from method";
+    },
+  },
+
+  computed: {
+    fontSize() {
+      switch (this.$vuetify.breakpoint.name) {
+        case "xs":
+          return 14;
+        case "sm":
+          return 14;
+        case "md":
+          return 14;
+        case "lg":
+          return 16;
+        case "xl":
+          return 16;
+      }
+      return 10;
+    },
+    densify() {
+      if (this.$vuetify.breakpoint.name === "xs") {
+        return { dense: true };
+      }
+      return { dense: false };
+    },
   },
 };
 </script>
@@ -169,8 +207,8 @@ export default {
 <style lang="scss">
 @import "@/scss/main.scss";
 
-.childcolor{
-  & #myicon{
+.childcolor {
+  & #myicon {
     color: tomato;
   }
 }

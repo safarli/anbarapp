@@ -28,28 +28,28 @@
           v-for="i in 4"
           :key="i"
         ></v-switch>
-      </v-card-text>
-    </v-card>
 
-    <v-select dense label="Standard" :items="items" style="width: 200px">
-      <!-- <template v-slot:append-item>
+        <v-select dense label="Standard" :items="items" style="width: 200px">
+          <!-- <template v-slot:append-item>
          <v-btn>OK</v-btn>
          <v-btn>Cancel</v-btn>
          <div style="width: 500px; height: 200px;"></div>
        </template> -->
-    </v-select>
+        </v-select>
+      </v-card-text>
+    </v-card>
   </div>
 </template>
 
 <script >
 export default {
-  data () {
+  data() {
     return {
       switchMe: false,
-      items: ['salam', 'sagol', 'necesen']
-    }
-  }
-}
+      items: ["salam", "sagol", "necesen"],
+    };
+  },
+};
 </script>
 
 <style scoped lang="scss">

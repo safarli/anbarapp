@@ -20,6 +20,34 @@ const routes = [
     path: '/settings',
     name: 'Settings',
     component: Settings
+  },
+  {
+    path: '/medaxil',
+    name: 'Medaxil',
+  },
+  {
+    path: '/mexaric',
+    name: 'Mexaric',
+  }
+  , {
+    path: '/nezaret',
+    name: 'Nezaret'
+  },
+  {
+    path: '/cedveller',
+    name: 'Cedveller'
+  },
+  {
+    path: '/barcode',
+    name: 'Barcode'
+  },
+  {
+    path: '/qrcode',
+    name: 'Qrcode'
+  },
+  {
+    path: '/exportexcel',
+    name: 'Exportexcel'
   }
 ]
 
