@@ -42,8 +42,8 @@
         </v-btn>
       </v-toolbar>
 
-      <v-list nav dense>
-        <v-list-item link class="teal lighten-5" v-for="i in 8" :key="i" >
+      <v-list nav>
+        <v-list-item link class="teal lighten-5" v-for="i in 8" :key="i">
           <v-list-item-icon>
             <v-icon color="teal">mdi-apple</v-icon>
           </v-list-item-icon>
@@ -115,20 +115,23 @@ export default {
     r_drawers: [{ show: false }, { show: false }],
     drawer: null,
     items: [
-      { title: 'Ümümi Panel', icon: 'mdi-view-dashboard', to: '/' },
-      { title: 'Inventar', icon: 'mdi-database', to: '/inventar' },
-      { title: 'Tənzimləmələr', icon: 'mdi-cog', to: '/settings' }
+      { title: "Ümümi Panel", icon: "mdi-view-dashboard", to: "/" },
+      { title: "Inventar", icon: "mdi-database", to: "/inventar" },
+      { title: "Tənzimləmələr", icon: "mdi-cog", to: "/settings" },
+      { title: "Mədaxil", icon: "mdi-try-arrow-down", to: "/medaxil" },
+      { title: "Məxaric", icon: "mdi-try-arrow-up", to: "/mexaric" },
+      { title: "Apple", icon: "mdi-arrow-up-thin-circle-outline", to: "/apple" },
     ],
-    right: null
+    right: null,
   }),
   methods: {
-    closeAllDrws () {
+    closeAllDrws() {
       for (const d of this.r_drawers) {
-        d.show = false
+        d.show = false;
       }
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style lang="scss">
