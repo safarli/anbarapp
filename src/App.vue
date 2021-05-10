@@ -6,7 +6,7 @@
         <v-list-item-content>
           <v-list-item-title class="title">WAVEVO Tech</v-list-item-title>
           <v-list-item-subtitle>
-            2010-cu ilden xidmetinizde
+            Anbar İdarəetmə Sistem v1.3
           </v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
@@ -101,7 +101,7 @@
     <!-- //! DRAWER RIGHT 2 END -->
 
     <!-- //! APP-BAR START-->
-    <v-app-bar app dark color="#00897b">
+    <v-app-bar app light color="green accent-3">
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
 
       <v-app-bar-title>SMS (Anbar MS)</v-app-bar-title>
@@ -132,7 +132,6 @@
 
     <!-- //! MAIN START-->
     <v-main>
-      <p>{{ printText() }}</p>
       <v-divider></v-divider>
       <router-view></router-view>
     </v-main>
@@ -172,10 +171,6 @@ export default {
         d.show = false;
       }
     },
-    printText() {
-      console.log("Salam from method");
-      return "salam from method";
-    },
   },
 
   computed: {
@@ -198,7 +193,7 @@ export default {
       if (this.$vuetify.breakpoint.name === "xs") {
         return { dense: true };
       }
-      return { dense: false };
+      return { dense: true };
     },
   },
 };

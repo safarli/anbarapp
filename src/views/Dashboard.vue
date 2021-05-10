@@ -1,19 +1,25 @@
 <template>
   <div>
-      <div class="d-flex flex-wrap justify-center align-center">
-        <v-menu offset-y rounded="rounded" v-for="i in 6" :key="i">
-          <template v-slot:activator="{ on, attrs }">
-            <v-btn color="primary" outlined dark v-bind="attrs" v-on="on" class="ma-2">
-              Dropdown
-            </v-btn>
-          </template>
-          <v-card height="400" width="240">
-          </v-card>
-        </v-menu>
-      </div>
+    <div class="d-flex flex-wrap justify-center align-center">
+      <v-menu offset-y rounded="rounded" v-for="i in 6" :key="i">
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn
+            color="primary"
+            outlined
+            dark
+            v-bind="attrs"
+            v-on="on"
+            class="ma-2"
+          >
+            Açılan Menyu
+          </v-btn>
+        </template>
+        <v-card height="400" width="240"> </v-card>
+      </v-menu>
+    </div>
 
     <v-card class="d-flex justify-center flex-wrap">
-      <v-btn class="ma-2" v-for="i in 8" :key="i">
+      <v-btn class="ma-2" v-for="i in 8" :key="i" @click="snackbar = !snackbar">
         <v-icon>mdi-plus</v-icon>
       </v-btn>
     </v-card>
@@ -35,26 +41,36 @@
         </v-row>
       </v-container>
     </v-card>
+
+    <v-snackbar v-model="snackbar">
+      {{ snackbar_text }}
+      <template v-slot:action="{ attrs }">
+        <v-btn color="pink" text v-bind="attrs" @click="snackbar = false">
+          Bağla
+        </v-btn>
+      </template>
+    </v-snackbar>
   </div>
 </template>
 
 <script>
 export default {
-  data () {
+  data() {
     return {
       dialog: false,
+      snackbar: false,
+      snackbar_text: "Bildiris gonderilecek",
 
       items: [
-        { title: 'Texnokom' },
-        { title: 'Tib' },
-        { title: 'Salam' },
-        { title: 'Sagol' }
-      ]
-    }
+        { title: "Texnokom" },
+        { title: "Tib" },
+        { title: "Salam" },
+        { title: "Sagol" },
+      ],
+    };
   },
-  computed: {
-  }
-}
+  computed: {},
+};
 </script>
 
 <style scoped lang="scss">
