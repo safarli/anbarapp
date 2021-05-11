@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Dashboard from '@/views/Dashboard.vue'
 import Inventar from '@/views/Inventar.vue'
 import Settings from '@/views/Settings.vue'
+import Medaxil from '@/views/Medaxil.vue'
 
 const routes = [
   {
@@ -24,6 +25,7 @@ const routes = [
   {
     path: '/medaxil',
     name: 'Medaxil',
+    component: Medaxil
   },
   {
     path: '/mexaric',

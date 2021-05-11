@@ -1,10 +1,10 @@
 <template>
   <v-app id="inspire">
     <!-- //! DRAWER LEFT -->
-    <v-navigation-drawer app v-model="drawer">
+    <v-navigation-drawer app v-model="drawer" color="grey lighten-5">
       <v-list-item>
         <v-list-item-content>
-          <v-list-item-title class="title">WAVEVO Tech</v-list-item-title>
+          <v-list-item-title class="title">Texnokom/Anbar</v-list-item-title>
           <v-list-item-subtitle>
             Anbar İdarəetmə Sistem v1.3
           </v-list-item-subtitle>
@@ -15,7 +15,6 @@
 
       <v-list v-bind="densify" nav>
         <v-list-item
-          class="grey lighten-5"
           active-class="childcolor"
           v-for="item in items"
           :key="item.title"
@@ -70,6 +69,7 @@
           class="grey lighten-5"
         >
           <v-list-item-icon>
+            <v-icon color="grey darken-2">mdi-download</v-icon>
             <v-icon color="amber darken-2">{{ brand.icon }}</v-icon>
           </v-list-item-icon>
           <v-list-item-content>
@@ -101,7 +101,7 @@
     <!-- //! DRAWER RIGHT 2 END -->
 
     <!-- //! APP-BAR START-->
-    <v-app-bar app light color="green accent-3">
+    <v-app-bar app dark color="teal">
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
 
       <v-app-bar-title>SMS (Anbar MS)</v-app-bar-title>
@@ -158,8 +158,9 @@ export default {
       { title: "Tənzimləmələr", icon: "mdi-cog", to: "/settings" },
     ],
     brands: [
-      { title: "Apple", icon: "mdi-apple" },
+      { title: "IOS", icon: "mdi-apple" },
       { title: "Android", icon: "mdi-android" },
+      { title: "Windows", icon: "mdi-microsoft" },
       { title: "Google", icon: "mdi-google" },
       { title: "FreeBSD", icon: "mdi-freebsd" },
       { title: "Steam", icon: "mdi-steam" },
@@ -200,11 +201,12 @@ export default {
 </script>
 
 <style lang="scss">
-@import "@/scss/main.scss";
+@use "@/scss/main.scss";
+@import '~vuetify/src/styles/styles.sass';
 
 .childcolor {
-  & #myicon {
-    color: tomato;
+   & #myicon {
+     color: map-get($amber, darken-2);
   }
 }
 
