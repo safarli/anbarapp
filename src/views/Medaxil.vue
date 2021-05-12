@@ -1,50 +1,47 @@
 <template>
-  <div style="max-width: 600px;" class="mx-auto">
+  <div style="max-width: 500px" class="mx-auto">
     <h1>Mədaxil</h1>
     <form>
-      <v-text-field
-        v-model="name"
-        :error-messages="nameErrors"
-        :counter="10"
-        label="Ad"
-        required
-        @input="$v.name.$touch()"
-        @blur="$v.name.$touch()"
-      ></v-text-field>
-      <v-text-field
-        v-model="email"
-        :error-messages="emailErrors"
-        label="Eded"
-        required
-        @input="$v.email.$touch()"
-        @blur="$v.email.$touch()"
-      ></v-text-field>
       <v-select
-        v-model="select"
+        outlined
+        chips
+        multiple
         :items="items"
-        :error-messages="selectErrors"
-        label="Tarix"
-        required
-        @change="$v.select.$touch()"
-        @blur="$v.select.$touch()"
-      ></v-select>
-      <v-checkbox
-        v-model="checkbox"
-        :error-messages="checkboxErrors"
-        label="Yadda saxla"
-        required
-        @change="$v.checkbox.$touch()"
-        @blur="$v.checkbox.$touch()"
-      ></v-checkbox>
+        v-model="values"
+        @focus="showMenu"
+        @keydown="updateItems"
+      >
+      </v-select>
 
-      <v-btn class="mr-4" @click="submit"> Əlavə Et</v-btn>
-      <v-btn @click="clear"> Sil </v-btn>
+      <v-btn rounded class="mr-4"> ƏLAVƏ ET</v-btn>
+      <v-btn rounded> SİL </v-btn>
     </form>
   </div>
 </template>
 
 <script>
+export default {
+  data() {
+    return {
+      items: ["samsung", "huawei", "apple", "xiaomi", "nokia", "htc", "sony"],
+      values: [],
+    };
+  },
+
+  methods: {
+    updateItems() {
+      setTimeout(() => {
+        this.items.push(Math.round(Math.random() * 100));
+        console.log("UPDATE CALLED");
+      }, 300);
+    },
+    showMenu() {
+      this.menuShow = true;
+    },
+  },
+  computed: {},
+};
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 </style>
