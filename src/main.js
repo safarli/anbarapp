@@ -4,6 +4,7 @@ import Vuex from 'vuex'
 import VueRouter from 'vue-router'
 import vuetify from './plugins/vuetify'
 import { router } from './router'
+import { ValidationProvider } from 'vee-validate'
 
 import MyCard from '@/components/MyCard.vue'
 import 'roboto-fontface/css/roboto/roboto-fontface.css'
@@ -14,6 +15,7 @@ Vue.use(Vuex)
 Vue.use(VueRouter)
 
 Vue.component('my-card', MyCard)
+Vue.component('ValidationProvider', ValidationProvider)
 
 new Vue({
   vuetify,
