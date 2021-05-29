@@ -104,7 +104,7 @@
     <v-app-bar app dark color="teal">
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
 
-      <v-app-bar-title>SMS (Anbar MS)</v-app-bar-title>
+      <v-app-bar-title>Anbar Idarəetmə Sistemi</v-app-bar-title>
 
       <v-spacer></v-spacer>
 
@@ -156,6 +156,7 @@ export default {
       { title: "Export-CSV", icon: "mdi-microsoft-excel", to: "/exportexcel" },
       { title: "Barkod", icon: "mdi-barcode-scan", to: "/barcode" },
       { title: "Tənzimləmələr", icon: "mdi-cog", to: "/settings" },
+      { title: "Login", icon: "mdi-login", to: "/login" },
     ],
     brands: [
       { title: "IOS", icon: "mdi-apple" },
@@ -202,11 +203,11 @@ export default {
 
 <style lang="scss">
 @use "@/scss/main.scss";
-@import '~vuetify/src/styles/styles.sass';
+@import "~vuetify/src/styles/styles.sass";
 
 .childcolor {
-   & #myicon {
-     color: map-get($amber, darken-2);
+  & #myicon {
+    color: map-get($amber, darken-2);
   }
 }
 

@@ -1,9 +1,10 @@
 import VueRouter from 'vue-router'
 
-import Dashboard from '@/views/Dashboard.vue'
-import Inventar from '@/views/Inventar.vue'
-import Settings from '@/views/Settings.vue'
-import Medaxil from '@/views/Medaxil.vue'
+import Dashboard from '@/views/Dashboard'
+import Inventar from '@/views/Inventar'
+import Settings from '@/views/Settings'
+import Medaxil from '@/views/Medaxil'
+import Login from '@/views/Login'
 
 const routes = [
   {
@@ -50,6 +51,11 @@ const routes = [
   {
     path: '/exportexcel',
     name: 'Exportexcel'
+  },
+  {
+    path: '/login',
+    name: 'Login',
+    component: Login
   }
 ]
 
