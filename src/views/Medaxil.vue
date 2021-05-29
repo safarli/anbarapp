@@ -11,10 +11,10 @@
       ></v-select>
 
       <v-text-field
-      label="Nömrə"
-      v-model="mehsulNomre"
-      type="number"
-      :rules="nomreRules"
+        label="Nömrə"
+        v-model="mehsulNomre"
+        type="number"
+        :rules="nomreRules"
       >
       </v-text-field>
 
@@ -23,7 +23,7 @@
         v-model="alinmaYeriSelected"
         :items="alinmaYerleri"
         :rules="selectRules"
-        :menu-props="{'offset-y': true}"
+        :menu-props="{ 'offset-y': true }"
       >
       </v-select>
 
@@ -64,7 +64,12 @@
             :rules="dateRules"
           ></v-text-field>
         </template>
-        <v-date-picker v-model="date" @input="menu_date = false" no-title scrollable>
+        <v-date-picker
+          v-model="date"
+          @input="menu_date = false"
+          no-title
+          scrollable
+        >
         </v-date-picker>
       </v-menu>
       <!-- //! DATE PICKER END -->
@@ -75,19 +80,14 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   data() {
     return {
       valid: true,
-      mehsulTipleri: [
-        "samsung",
-        "huawei",
-        "apple",
-        "xiaomi",
-        "nokia",
-        "htc",
-        "sony",
-      ],
+      mehsulTipleri: [],
+      alinmaYerleri: [],
       values: [],
       date: "",
       menu_date: false,
@@ -103,9 +103,7 @@ export default {
       ],
       selectRules: [(v) => !!v || "Seçim edin"],
       dateRules: [(v) => !!v || "Tarix seçin"],
-      nomreRules: [
-        v => v < 2000 || "2000-dən kiçik ədəd daxil edin"
-      ]
+      nomreRules: [(v) => v < 2000 || "2000-dən kiçik ədəd daxil edin"],
     };
   },
 
@@ -122,12 +120,34 @@ export default {
     todayISO() {
       return new Date().toISOString().split("T")[0];
     },
+    addToDB(){
+      const data = {
+        // data properties will be send to backend to be inserted database
+      }
+      axios.post("https://anbar.wavevo.com/anbarin/item", data)
+      .then(result => console.log(result))
+    }
   },
   computed: {},
 
   mounted: function () {
+    axios
+      .get("https://anbar.wavevo.com/anbarout/getproducttypes")
+      .then((result) => {
+        this.mehsulTipleri = result.data.map(item => {
+          return item.mehsultipi;
+        })
+      });
+    axios.get("https://anbar.wavevo.com/anbarout/getproviders")
+    .then(result => {
+      this.alinmaYerleri = result.data.map(item => {
+        return item.satici_adi;
+      })
+    })
+
     this.date = this.todayISO();
     this.$refs.form.validate();
+
   },
 };
 </script>

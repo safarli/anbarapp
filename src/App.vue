@@ -104,7 +104,7 @@
     <v-app-bar app dark color="teal">
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
 
-      <v-app-bar-title>Anbar Idarəetmə Sistemi</v-app-bar-title>
+      <v-app-bar-title>Anbar İdarəetmə Sistemi</v-app-bar-title>
 
       <v-spacer></v-spacer>
 
