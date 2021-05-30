@@ -119,7 +119,7 @@ export default {
 
   methods: {
     refreshData() {
-      axios.get("https://anbar.wavevo.com/anbarout/getall").then((result) => {
+      axios.get("https://anbar.wavevo.com/anbarout/getproducts").then((result) => {
         this.tabledata = result.data;
       });
     },
@@ -133,7 +133,7 @@ export default {
   },
 
   created() {
-    axios.get("https://anbar.wavevo.com/anbarout/getall").then((result) => {
+    axios.get("https://anbar.wavevo.com/anbarout/getproducts").then((result) => {
       this.tabledata = result.data;
       console.log(result.data);
     });
