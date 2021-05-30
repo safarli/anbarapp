@@ -101,14 +101,13 @@ export default {
       itemsPerPage: 10,
 
       headers: [
-        { text: "Id", value: "id" },
-        { text: "Ad", value: "ad" },
-        { text: "Vahid", value: "vahid", filterable: false },
-        { text: "Miqdar", value: "miqdar", filterable: false },
+        { text: "Ad", value: "mehsultipi" },
+        { text: "Satıcı", value: "satici_adi" },
+        { text: "Vahid", value: "mehsul_vahidi", filterable: false },
+        { text: "Miqdar", value: "mehsul_miqdar", filterable: false },
         { text: "Tarix", value: "anbar_tarix", filterable: true },
         {
           text: "Əməliyyat",
-          value: "actions",
           filterable: false,
           sortable: false,
         },
@@ -119,7 +118,7 @@ export default {
 
   methods: {
     refreshData() {
-      axios.get("https://anbar.wavevo.com/anbarout/getproducts").then((result) => {
+      axios.get("https://anbar.wavevo.com/anbarout/products").then((result) => {
         this.tabledata = result.data;
       });
     },
@@ -133,7 +132,7 @@ export default {
   },
 
   created() {
-    axios.get("https://anbar.wavevo.com/anbarout/getproducts").then((result) => {
+    axios.get("https://anbar.wavevo.com/anbarout/products").then((result) => {
       this.tabledata = result.data;
       console.log(result.data);
     });
