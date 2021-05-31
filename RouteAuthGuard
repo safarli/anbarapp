@@ -1,0 +1,4 @@
+# With vue router hooks check if any route needs to be authorized
+# If any, then get the jwt token from localstorage
+# After getting jwt token, send it to the server for validation
+# If server confirmed it then go next() route, else redirect to /login page next()

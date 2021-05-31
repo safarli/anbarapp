@@ -1,7 +1,15 @@
 <template>
   <div>
     <v-toolbar class="mb-4">
-      <v-btn @click="refreshData()">Yenilə</v-btn>
+      <v-btn 
+      @click="refreshDataDelayed()" 
+      :disabled="btnDisabled"
+       :loading="btnLoading"
+      color="amber lighten-3"
+      >
+      <v-icon>mdi-refresh</v-icon>
+      YENİLƏ
+      </v-btn>
 
       <v-dialog v-model="dialog_query" persistent max-width="400px">
         <template v-slot:activator="{ on, attrs }">
@@ -21,7 +29,7 @@
             >
               <template v-slot:activator="{ on, attrs }">
                 <v-text-field
-                  style="max-width: 300px;"
+                  style="max-width: 300px"
                   label="Baslangic tarixi"
                   prepend-icon="mdi-calendar"
                   readonly
@@ -31,12 +39,8 @@
               </template>
               <v-date-picker no-title scrollable>
                 <v-spacer></v-spacer>
-                <v-btn text color="primary" >
-                  Cancel
-                </v-btn>
-                <v-btn text color="primary" >
-                  OK
-                </v-btn>
+                <v-btn text color="primary"> Cancel </v-btn>
+                <v-btn text color="primary"> OK </v-btn>
               </v-date-picker>
             </v-menu>
           </v-card-text>
@@ -63,6 +67,8 @@
         @page-count="pageCount = $event"
         class="elevation-1 xs"
         :search="search"
+        :loading="loadingvariable"
+        loading-text="Yüklənir zəhmət olmazsa gözləyin"
       >
         <template v-slot:top>
           <v-text-field
@@ -93,6 +99,10 @@ import axios from "axios";
 export default {
   data() {
     return {
+      btnDisabled: false,
+      btnLoading: false,
+      tabledata: [],
+      loadingvariable: false,
       dialog_query: false,
       search: "",
 
@@ -103,6 +113,7 @@ export default {
       headers: [
         { text: "Ad", value: "mehsultipi" },
         { text: "Satıcı", value: "satici_adi" },
+        { text: "Nömrə", value: "nomre" },
         { text: "Vahid", value: "mehsul_vahidi", filterable: false },
         { text: "Miqdar", value: "mehsul_miqdar", filterable: false },
         { text: "Tarix", value: "anbar_tarix", filterable: true },
@@ -112,15 +123,24 @@ export default {
           sortable: false,
         },
       ],
-      tabledata: [],
     };
   },
 
   methods: {
-    refreshData() {
-      axios.get("https://anbar.wavevo.com/anbarout/products").then((result) => {
-        this.tabledata = result.data;
-      });
+    refreshDataDelayed() {
+      this.btnDisabled = true;
+      this.btnLoading = true;
+      this.loadingvariable = true;
+      setTimeout(() => {
+        axios
+          .get("https://anbar.wavevo.com/anbarout/products")
+          .then((result) => {
+            this.tabledata = result.data;
+            this.loadingvariable = false;
+            this.btnLoading =  false;
+            this.btnDisabled = false;
+          });
+      }, 1500);
     },
 
     editItem(item) {
@@ -132,10 +152,7 @@ export default {
   },
 
   created() {
-    axios.get("https://anbar.wavevo.com/anbarout/products").then((result) => {
-      this.tabledata = result.data;
-      console.log(result.data);
-    });
+    this.refreshDataDelayed();
   },
 };
 </script>
