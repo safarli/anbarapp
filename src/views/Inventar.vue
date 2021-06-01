@@ -95,6 +95,7 @@
 
 <script>
 import axios from "axios";
+import BASE_PATH from '@/variables/urls.js'
 
 export default {
   data() {
@@ -133,7 +134,7 @@ export default {
       this.loadingvariable = true;
       setTimeout(() => {
         axios
-          .get("https://anbar.wavevo.com/reports/products")
+          .get(BASE_PATH+"/reports/products")
           .then((result) => {
             this.tabledata = result.data;
             this.loadingvariable = false;

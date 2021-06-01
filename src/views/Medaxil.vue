@@ -5,7 +5,7 @@
       <v-combobox
         clearable
         label="Məhsul Tipi"
-        v-model="selectedMehsulTypeText"
+        v-model="selectedType"
         :items="productTypes"
         item-text="mehsultipi"
         :menu-props="{ 'offset-y': true }"
@@ -95,12 +95,14 @@
         @click="submitData"
         :loading="btnLoading"
         :disabled="btnDisabled"
-        dark
-        rounded
-        color="teal"
+        color="amber lighten-3"
         class="mr-4"
         >ƏLAVƏ ET</v-btn
       >
+      <v-btn @click="resetForm" color="green lighten-3" class="mr-4">
+        <v-icon>mdi-reset</v-icon>
+        SIFIRLA
+      </v-btn>
     </v-form>
 
     <v-snackbar v-model="snackbar">
@@ -116,6 +118,7 @@
 
 <script>
 import axios from "axios";
+import BASE_PATH from "@/variables/urls.js";
 
 export default {
   data() {
@@ -134,7 +137,7 @@ export default {
       menu_date: false,
 
       // Inputs to send to db
-      selectedMehsulTypeText: "",
+      selectedType: "",
       selectedMehsulID: "",
       selectedSaticiID: "",
       selectedVahid: "",
@@ -164,33 +167,37 @@ export default {
     todayISO() {
       return new Date().toISOString().split("T")[0];
     },
+    resetForm() {
+      this.$refs.form.reset();
+    },
 
-    async addProductType(productType){
+    async addProductType(selectedType) {
       const data = {
-        productType
-      }
-      try{
-        await axios.post('https://anbar.wavevo.com/helpers/producttypes', data)
-        
-      }
-      catch(e){
-        console.log(e);
+        selectedType,
+      };
+      try {
+        return await axios.post(BASE_PATH + "/helpers/producttypes", data);
+      } catch (e) {
+        return console.log(e);
       }
     },
 
     async findProductTypeId(selectedType) {
       let foundId = null;
-      const foundItem = this.product.types.find((item) => item.mehsultipi === selectedType);
-      if(foundItem){
+      const foundItem = this.product.types.find(
+        (item) => item.mehsultipi === selectedType
+      );
+      if (foundItem) {
         foundId = foundItem.mehsultipi_id;
-        return foundItem
+        return foundId;
       }
-      else if(!foundId){
+      try {
         await this.addProductType(selectedType);
         await this.getProductTypes();
-        await this.findProductTypeId();
+        return await this.findProductTypeId(this.selectedType); // don't foreget put return keyword in front of data returning functions
+      } catch (e) {
+        console.log(e);
       }
-      return foundId
     },
 
     async submitData() {
@@ -199,19 +206,17 @@ export default {
       this.btnDisabled = true;
 
       const data = {
-        // mehsultipi_id: this.selectedMehsulID,
-        mehsultipi_id: await this.findProductTypeId(this.selectedMehsulTypeText),
+        mehsultipi_id: "",
         satici_id: this.selectedSaticiID,
         nomre: this.mehsulNomre,
         vahid: this.selectedVahid,
         miqdar: this.mehsulMiqdari,
         tarix: this.date,
       };
+
       try {
-        const resp = await axios.post(
-          "https://anbar.wavevo.com/anbarin/product",
-          data
-        );
+        data.mehsultipi_id = await this.findProductTypeId(this.selectedType);
+        const resp = await axios.post(BASE_PATH + "/anbarin/product", data);
         console.log(resp);
         this.snackbar_text = resp.data;
         this.snackbar = true;
@@ -222,14 +227,14 @@ export default {
       } finally {
         this.btnLoading = false;
         this.btnDisabled = false;
+        console.log(data);
       }
     },
 
     async getProductTypes() {
       try {
-        const { data } = await axios.get(
-          "https://anbar.wavevo.com/helpers/producttypes"
-        );
+        const { data } = await axios.get(BASE_PATH + "/helpers/producttypes");
+        this.product.types = data;
         return data;
       } catch (e) {
         console.log(e);
@@ -237,9 +242,8 @@ export default {
     },
     async getProviders() {
       try {
-        const { data } = await axios.get(
-          "https://anbar.wavevo.com/helpers/providers"
-        );
+        const { data } = await axios.get(BASE_PATH + "/helpers/providers");
+        this.product.providers = data;
         return data;
       } catch (e) {
         console.log(e);
@@ -247,14 +251,14 @@ export default {
     },
   },
   computed: {
-    productTypes(){
-      return this.product.types.map( (item) => item.mehsultipi)
-    }
+    productTypes() {
+      return this.product.types.map((item) => item.mehsultipi);
+    },
   },
 
   async created() {
-    this.product.types = await this.getProductTypes();
-    this.product.providers = await this.getProviders();
+    await this.getProductTypes();
+    await this.getProviders();
   },
 
   mounted() {

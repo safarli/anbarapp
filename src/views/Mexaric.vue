@@ -44,6 +44,7 @@
 
 <script>
 import axios from "axios";
+import BASE_URL from "@/variables/urls.js"
 
 export default {
   data: function () {
@@ -83,8 +84,7 @@ export default {
       console.log(data);
       try {
         const resp = await axios.post(
-          "https://anbar.wavevo.com/anbarout/product",
-          // "http://localhost:9999/anbarout/product",
+          BASE_URL+"/anbarout/product",
           data
         );
         console.log(resp);
@@ -105,8 +105,7 @@ export default {
     async getProducts() {
       try {
         const { data } = await axios.get(
-          // "http://localhost:9999/reports/products"
-          "https://anbar.wavevo.com/reports/products"
+          BASE_URL+"/reports/products"
         );
         console.log(data);
         return data;
