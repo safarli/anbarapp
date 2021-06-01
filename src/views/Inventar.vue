@@ -140,7 +140,7 @@ export default {
             this.btnLoading =  false;
             this.btnDisabled = false;
           });
-      }, 1500);
+      }, 500);
     },
 
     editItem(item) {

@@ -6,7 +6,7 @@
       <v-select
         label="Məhsul"
         v-model="selectedMehsulID"
-        :items="product.types"
+        :items="products"
         item-text="mehsultipi"
         item-value="mehsul_id"
         :menu-props="{ 'offset-y': true }"
@@ -21,7 +21,12 @@
         counter="8"
       ></v-text-field>
 
-      <v-btn @click="submitData" :loading="btnLoading" :disabled="btnDisabled" dark rounded color="teal" class="mr-4"
+      <v-btn
+        @click="submitData"
+        :disabled="btnDisabled"
+        :loading="btnLoading"
+        color="amber lighten-3"
+        class="mr-4"
         >Məxaric Et</v-btn
       >
     </v-form>
@@ -41,16 +46,13 @@
 import axios from "axios";
 
 export default {
-  data: function() {
+  data: function () {
     return {
       btnLoading: false,
       btnDisabled: false,
       snackbar: false,
-      snackbar_text: "Error",
-      product: {
-        types: [],
-        providers: [],
-      },
+      snackbar_text: null,
+      products: [],
       valid: true,
       values: [],
       // Inputs to send to db
@@ -72,36 +74,41 @@ export default {
 
     async submitData() {
       if (!this.$refs.form.validate()) return;
-      this.btnLoading = true;
       this.btnDisabled = true;
+      this.btnLoading = true;
       const data = {
         mehsul_id: this.selectedMehsulID,
         miqdar: this.mehsulMiqdari,
       };
+      console.log(data);
       try {
         const resp = await axios.post(
           "https://anbar.wavevo.com/anbarout/product",
+          // "http://localhost:9999/anbarout/product",
           data
         );
         console.log(resp);
-        this.snackbar_text = resp.data
+        this.snackbar_text = resp.data;
         this.snackbar = true;
       } catch (e) {
-        this.snackbar_text = e.response.data.message;
+        if (e.response.data.code === "23514") {
+          this.snackbar_text = "Anbarda istədiyiniz qədər məhsul yoxdur!";
+        }
         this.snackbar = true;
         console.log(e.response.data);
-      }
-      finally{
-        this.btnLoading = false;
+      } finally {
         this.btnDisabled = false;
+        this.btnLoading = false;
       }
     },
 
     async getProducts() {
       try {
         const { data } = await axios.get(
+          // "http://localhost:9999/reports/products"
           "https://anbar.wavevo.com/reports/products"
         );
+        console.log(data);
         return data;
       } catch (e) {
         console.log(e);
@@ -111,11 +118,10 @@ export default {
   computed: {},
 
   async created() {
-    this.product.types = await this.getProducts();
+    this.products = await this.getProducts();
   },
 
-  mounted() {
-  },
+  mounted() {},
 };
 </script>
 
