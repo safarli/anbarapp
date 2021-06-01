@@ -2,15 +2,27 @@
   <div style="max-width: 500px" class="mx-auto">
     <h1>Mədaxil</h1>
     <v-form v-model="valid" ref="form">
-      <v-select
-        label="Məhsul"
+      <v-combobox
+        clearable
+        label="Məhsul Tipi"
+        v-model="selectedMehsulTypeText"
+        :items="productTypes"
+        item-text="mehsultipi"
+        :menu-props="{ 'offset-y': true }"
+        :rules="selectRules"
+      >
+      </v-combobox>
+      <!-- <v-select
+        clearable
+        label="Məhsul Tipi"
         v-model="selectedMehsulID"
         :items="product.types"
         item-text="mehsultipi"
         item-value="mehsultipi_id"
         :menu-props="{ 'offset-y': true }"
         :rules="selectRules"
-      ></v-select>
+      >
+      </v-select> -->
 
       <v-text-field
         label="Nömrə"
@@ -79,7 +91,14 @@
       </v-menu>
       <!-- //! DATE PICKER END -->
 
-      <v-btn @click="submitData" :loading="btnLoading" :disabled="btnDisabled" dark rounded color="teal" class="mr-4"
+      <v-btn
+        @click="submitData"
+        :loading="btnLoading"
+        :disabled="btnDisabled"
+        dark
+        rounded
+        color="teal"
+        class="mr-4"
         >ƏLAVƏ ET</v-btn
       >
     </v-form>
@@ -115,6 +134,7 @@ export default {
       menu_date: false,
 
       // Inputs to send to db
+      selectedMehsulTypeText: "",
       selectedMehsulID: "",
       selectedSaticiID: "",
       selectedVahid: "",
@@ -145,12 +165,42 @@ export default {
       return new Date().toISOString().split("T")[0];
     },
 
+    async addProductType(productType){
+      const data = {
+        productType
+      }
+      try{
+        await axios.post('https://anbar.wavevo.com/helpers/producttypes', data)
+        
+      }
+      catch(e){
+        console.log(e);
+      }
+    },
+
+    async findProductTypeId(selectedType) {
+      let foundId = null;
+      const foundItem = this.product.types.find((item) => item.mehsultipi === selectedType);
+      if(foundItem){
+        foundId = foundItem.mehsultipi_id;
+        return foundItem
+      }
+      else if(!foundId){
+        await this.addProductType(selectedType);
+        await this.getProductTypes();
+        await this.findProductTypeId();
+      }
+      return foundId
+    },
+
     async submitData() {
       if (!this.$refs.form.validate()) return;
       this.btnLoading = true;
       this.btnDisabled = true;
+
       const data = {
-        mehsultipi_id: this.selectedMehsulID,
+        // mehsultipi_id: this.selectedMehsulID,
+        mehsultipi_id: await this.findProductTypeId(this.selectedMehsulTypeText),
         satici_id: this.selectedSaticiID,
         nomre: this.mehsulNomre,
         vahid: this.selectedVahid,
@@ -169,8 +219,7 @@ export default {
         this.snackbar_text = e.response.data.message;
         this.snackbar = true;
         console.log(e.response.data);
-      }
-      finally{
+      } finally {
         this.btnLoading = false;
         this.btnDisabled = false;
       }
@@ -197,7 +246,11 @@ export default {
       }
     },
   },
-  computed: {},
+  computed: {
+    productTypes(){
+      return this.product.types.map( (item) => item.mehsultipi)
+    }
+  },
 
   async created() {
     this.product.types = await this.getProductTypes();
