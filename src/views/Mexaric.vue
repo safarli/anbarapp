@@ -8,7 +8,7 @@
         v-model="selectedMehsulID"
         :items="product.types"
         item-text="mehsultipi"
-        item-value="mehsultipi_id"
+        item-value="mehsul_id"
         :menu-props="{ 'offset-y': true }"
         :rules="selectRules"
       ></v-select>
@@ -41,7 +41,7 @@
 import axios from "axios";
 
 export default {
-  data() {
+  data: function() {
     return {
       btnLoading: false,
       btnDisabled: false,
@@ -75,12 +75,12 @@ export default {
       this.btnLoading = true;
       this.btnDisabled = true;
       const data = {
-        mehsultipi_id: this.selectedMehsulID,
+        mehsul_id: this.selectedMehsulID,
         miqdar: this.mehsulMiqdari,
       };
       try {
         const resp = await axios.post(
-          "https://anbar.wavevo.com/anbarin/product",
+          "https://anbar.wavevo.com/anbarout/product",
           data
         );
         console.log(resp);
@@ -97,10 +97,10 @@ export default {
       }
     },
 
-    async getProductTypes() {
+    async getProducts() {
       try {
         const { data } = await axios.get(
-          "https://anbar.wavevo.com/anbarout/producttypes"
+          "https://anbar.wavevo.com/reports/products"
         );
         return data;
       } catch (e) {
@@ -111,7 +111,7 @@ export default {
   computed: {},
 
   async created() {
-    this.product.types = await this.getProductTypes();
+    this.product.types = await this.getProducts();
   },
 
   mounted() {

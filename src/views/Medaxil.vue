@@ -179,7 +179,7 @@ export default {
     async getProductTypes() {
       try {
         const { data } = await axios.get(
-          "https://anbar.wavevo.com/anbarout/producttypes"
+          "https://anbar.wavevo.com/helpers/producttypes"
         );
         return data;
       } catch (e) {
@@ -189,7 +189,7 @@ export default {
     async getProviders() {
       try {
         const { data } = await axios.get(
-          "https://anbar.wavevo.com/anbarout/providers"
+          "https://anbar.wavevo.com/helpers/providers"
         );
         return data;
       } catch (e) {

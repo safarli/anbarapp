@@ -133,7 +133,7 @@ export default {
       this.loadingvariable = true;
       setTimeout(() => {
         axios
-          .get("https://anbar.wavevo.com/anbarout/products")
+          .get("https://anbar.wavevo.com/reports/products")
           .then((result) => {
             this.tabledata = result.data;
             this.loadingvariable = false;
