@@ -114,7 +114,7 @@ export default {
       headers: [
         { text: "Ad", value: "mehsultipi" },
         { text: "Satıcı", value: "satici_adi" },
-        { text: "Nömrə", value: "nomre" },
+        { text: "Saxlanma Yeri", value: "saxlanma_yeri" },
         { text: "Vahid", value: "mehsul_vahidi", filterable: false },
         { text: "Miqdar", value: "mehsul_miqdar", filterable: false },
         { text: "Tarix", value: "anbar_tarix", filterable: true },

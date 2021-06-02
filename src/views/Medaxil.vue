@@ -25,11 +25,10 @@
       </v-select> -->
 
       <v-text-field
-        label="Nömrə"
-        v-model="mehsulNomre"
-        type="number"
-        counter="4"
-        :rules="nomreRules"
+        label="Saxlanma Yeri"
+        v-model="saxlanmaYeri"
+        counter="60"
+        :rules="saxlanmaYeriRules"
       >
       </v-text-field>
 
@@ -142,7 +141,7 @@ export default {
       selectedSaticiID: "",
       selectedVahid: "",
       mehsulMiqdari: 0,
-      mehsulNomre: 0,
+      saxlanmaYeri: '',
 
       mehsulVahidleri: [
         { itemText: "ƏDƏD", itemValue: "ED" },
@@ -156,7 +155,7 @@ export default {
       ],
       selectRules: [(v) => !!v || "Seçim edin"],
       dateRules: [(v) => !!v || "Tarix seçin"],
-      nomreRules: [(v) => v < 2000 || "2000-dən kiçik ədəd daxil edin"],
+      saxlanmaYeriRules: [(v) => !!v || "Saxlanma yeri daxil edin"],
     };
   },
 
@@ -208,7 +207,7 @@ export default {
       const data = {
         mehsultipi_id: "",
         satici_id: this.selectedSaticiID,
-        nomre: this.mehsulNomre,
+        saxlanma_yeri: this.saxlanmaYeri,
         vahid: this.selectedVahid,
         miqdar: this.mehsulMiqdari,
         tarix: this.date,
