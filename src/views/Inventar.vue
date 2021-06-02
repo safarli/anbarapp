@@ -1,14 +1,14 @@
 <template>
   <div>
     <v-toolbar class="mb-4">
-      <v-btn 
-      @click="refreshDataDelayed()" 
-      :disabled="btnDisabled"
-       :loading="btnLoading"
-      color="amber lighten-3"
+      <v-btn
+        @click="refreshDataDelayed()"
+        :disabled="btnDisabled"
+        :loading="btnLoading"
+        color="amber lighten-3"
       >
-      <v-icon>mdi-refresh</v-icon>
-      YENİLƏ
+        <v-icon>mdi-refresh</v-icon>
+        YENİLƏ
       </v-btn>
 
       <v-dialog v-model="dialog_query" persistent max-width="400px">
@@ -61,11 +61,11 @@
       <v-data-table
         :headers="headers"
         hide-default-footer
-        :items="tabledata"
+        :items="tableData"
         :page.sync="page"
         :items-per-page="itemsPerPage"
         @page-count="pageCount = $event"
-        class="elevation-1 xs"
+        class="elevation-4"
         :search="search"
         :loading="loadingvariable"
         loading-text="Yüklənir zəhmət olmazsa gözləyin"
@@ -77,6 +77,22 @@
             class="mx-4"
           ></v-text-field>
         </template>
+
+        <template v-slot:item="{ item }">
+          <tr class="green lighten-4">
+            <td>{{ tableData.indexOf(item) }}</td>
+            <td>{{ item.mehsultipi }}</td>
+            <td>{{ item.satici_adi }}</td>
+            <td>{{ item.saxlanma_yeri }}</td>
+            <td>{{ item.mehsul_vahidi }}</td>
+            <td>{{ item.mehsul_miqdar }}</td>
+            <td class="blue">{{ item.actions }}</td>
+          </tr>
+        </template>
+
+        <!-- <template v-slot:item.index="{ item }">
+          {{ tableData.indexOf(item) }}
+        </template> -->
 
         <template v-slot:item.actions="{ item }">
           <v-icon class="mr-2" @click="editItem(item)">mdi-pencil</v-icon>
@@ -95,14 +111,14 @@
 
 <script>
 import axios from "axios";
-import BASE_PATH from '@/variables/urls.js'
+import BASE_PATH from "@/variables/urls.js";
 
 export default {
   data() {
     return {
       btnDisabled: false,
       btnLoading: false,
-      tabledata: [],
+      tableData: [],
       loadingvariable: false,
       dialog_query: false,
       search: "",
@@ -112,12 +128,12 @@ export default {
       itemsPerPage: 10,
 
       headers: [
+        { text: "#", value: "index" },
         { text: "Ad", value: "mehsultipi" },
         { text: "Satıcı", value: "satici_adi" },
         { text: "Saxlanma Yeri", value: "saxlanma_yeri" },
         { text: "Vahid", value: "mehsul_vahidi", filterable: false },
         { text: "Miqdar", value: "mehsul_miqdar", filterable: false },
-        { text: "Tarix", value: "anbar_tarix", filterable: true },
         {
           text: "Əməliyyat",
           filterable: false,
@@ -133,14 +149,12 @@ export default {
       this.btnLoading = true;
       this.loadingvariable = true;
       setTimeout(() => {
-        axios
-          .get(BASE_PATH+"/reports/products")
-          .then((result) => {
-            this.tabledata = result.data;
-            this.loadingvariable = false;
-            this.btnLoading =  false;
-            this.btnDisabled = false;
-          });
+        axios.get(BASE_PATH + "/reports/products").then((result) => {
+          this.tableData = result.data;
+          this.loadingvariable = false;
+          this.btnLoading = false;
+          this.btnDisabled = false;
+        });
       }, 500);
     },
 
