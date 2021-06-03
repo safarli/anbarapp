@@ -160,7 +160,7 @@ export default {
         },
         { title: "Mədaxil", icon: "mdi-bank-transfer-in", to: "/medaxil" },
         { title: "Məxaric", icon: "mdi-bank-transfer-out", to: "/mexaric" },
-        { title: "Hesabatlar", icon: "mdi-chart-bar", to: "/cedveller" },
+        { title: "Hesabatlar", icon: "mdi-chart-bar", to: "/hesabatlar" },
         { title: "Nəzarət", icon: "mdi-cctv", to: "/nezaret" },
         { title: "QR-Code", icon: "mdi-data-matrix", to: "/qrcode" },
         {

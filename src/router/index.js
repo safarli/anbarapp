@@ -9,6 +9,7 @@ import Mexaric from '@/views/Mexaric'
 import EditMehsulTipleri from '@/views/EditMehsulTipleri'
 import EditSaticilar from '@/views/EditSaticilar'
 import Login from '@/views/Login'
+import Hesabatlar from '@/views/Hesabatlar'
 import NotFound from '@/views/NotFound'
 
 
@@ -60,11 +61,12 @@ const routes = [
       }
       , {
         path: 'nezaret',
-        name: 'Nezaret'
+        name: 'Nezaret',
       },
       {
-        path: 'cedveller',
-        name: 'Cedveller'
+        path: 'hesabatlar',
+        name: 'Hesabatlar',
+        component: Hesabatlar
       },
       {
         path: 'barcode',
