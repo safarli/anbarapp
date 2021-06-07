@@ -21,6 +21,22 @@
         counter="8"
       ></v-text-field>
 
+      <v-text-field
+        label="Alıcı"
+        v-model="mehsulMiqdari"
+        :rules="selectRules"
+        type="number"
+        counter="8"
+      ></v-text-field>
+
+      <v-text-field
+        label="Təhvil Alan"
+        v-model="mehsulMiqdari"
+        :rules="selectRules"
+        type="number"
+        counter="8"
+      ></v-text-field>
+
       <v-btn
         @click="submitData"
         :disabled="btnDisabled"
