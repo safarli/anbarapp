@@ -1,3 +1,4 @@
+import axios from 'axios'
 import VueRouter from 'vue-router'
 
 import AppMain from '@/views/AppMain'
@@ -101,24 +102,32 @@ const routes = [
 export const router = new VueRouter({
   mode: 'history',
   routes
-})
+});
 
-router.beforeEach((to, from, next) => {
-  console.log(to)
-  console.log(from)
-  next();
-  // if (to.matched.some(record => record.meta.requiresAuth)) {
-  //   // this route requires auth, check if logged in
-  //   // if not, redirect to login page.
-  //   if (!auth.loggedIn()) {
-  //     next({
-  //       path: '/login',
-  //       query: { redirect: to.fullPath }
-  //     })
-  //   } else {
-  //     next()
-  //   }
-  // } else {
-  //   next() // make sure to always call next()!
-  // }
-})
+router.beforeEach(async (to, from, next) => {
+  // const token = localStorage.getItem('mytoken');
+  const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjA2ZDA4NDEtMWRmZS00NDNjLWI1OGQtMWM5NDY3NDFhOTg3In0sImlhdCI6MTYyMzA3OTk2NywiZXhwIjoxNjIzMDgwMDI3fQ._r-1CySLvYcAVOZVAHJBSSWPuGBWqbQFOtWuUNQl_5A"
+  let isAuthenticated = false;
+  try {
+    const { data } = await axios.post('https://anbar.wavevo.com/userauth/verify', {}, {
+      headers: {
+        'Authorization': 'Bearer ' + token
+      }
+    })
+    if (data.msg) {
+      isAuthenticated = data.msg;
+    }
+  }
+  catch (e) {
+    console.log(e);
+  }
+
+  console.log(isAuthenticated)
+
+  if (to.name !== 'Login' && !isAuthenticated) {
+    next({ name: 'Login' })
+  }
+  else {
+    next()
+  }
+});
