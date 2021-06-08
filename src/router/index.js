@@ -106,8 +106,8 @@ export const router = new VueRouter({
 
 router.beforeEach(async (to, from, next) => {
   // const token = localStorage.getItem('mytoken');
-  const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjA2ZDA4NDEtMWRmZS00NDNjLWI1OGQtMWM5NDY3NDFhOTg3In0sImlhdCI6MTYyMzA3OTk2NywiZXhwIjoxNjIzMDgwMDI3fQ._r-1CySLvYcAVOZVAHJBSSWPuGBWqbQFOtWuUNQl_5A"
-  let isAuthenticated = false;
+  const token = ""
+  let isAuthenticated = true;
   try {
     const { data } = await axios.post('https://anbar.wavevo.com/userauth/verify', {}, {
       headers: {
