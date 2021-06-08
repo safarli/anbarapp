@@ -23,17 +23,28 @@
             <v-card-text>
               <v-form ref="login_form">
                 <v-text-field
-                  :rules="emailRules"
                   label="E-mail"
+                  v-model="userEmail"
+                  :rules="emailRules"
                   type="email"
                 ></v-text-field>
                 <v-text-field
-                  counter="60"
                   label="Şifrə"
+                  v-model="userPassw"
+                  counter="60"
                   type="password"
                   :rules="passwRules"
                 ></v-text-field>
-                <v-btn @click="logIn" dark color="teal darken-2" class="mt-2"> GİRİŞ </v-btn>
+                <v-switch inset label="Yadda saxla"></v-switch>
+                <v-btn
+                  @click="logIn"
+                  dark
+                  color="teal darken-2"
+                  class="mt-2"
+                  :loading="loginBtnLoading"
+                >
+                  GİRİŞ
+                </v-btn>
               </v-form>
             </v-card-text>
           </v-tab-item>
@@ -55,7 +66,7 @@
                   label="E-mail"
                   type="email"
                 ></v-text-field>
-                <v-tooltip bottom content-class="grey darken-4" open-delay="300" :open-on-hover="false">
+                <v-tooltip bottom content-class="grey darken-4">
                   <template v-slot:activator="{ on, attrs }">
                     <v-text-field
                       v-bind="attrs"
@@ -70,7 +81,15 @@
                     hərf, 1 böyük hərfdən ibarət olmalıdır</span
                   >
                 </v-tooltip>
-                <v-btn @click="register" dark color="pink" class="mt-2"> QEYDİYYAT </v-btn>
+                <v-btn
+                  @click="register"
+                  dark
+                  color="pink"
+                  class="mt-2"
+                  :loading="registerBtnLoading"
+                >
+                  QEYDİYYAT
+                </v-btn>
               </v-form>
             </v-card-text>
           </v-tab-item>
@@ -83,9 +102,16 @@
 
 
 <script>
+import axios from "axios";
+
 export default {
   data() {
     return {
+      loginBtnLoading: false,
+      registerBtnLoading: false,
+      userEmail: "example@example.com",
+      userPassw: "123456",
+
       emailRules: [
         (v) => !!v || "E-Poçt ünvanı daxil edin",
         (v) => /.+@.+\..+/.test(v) || "Yanlış poçt ünvanı",
@@ -103,19 +129,21 @@ export default {
       soyadRules: [(v) => !!v || "Soyadınızı daxil edin"],
     };
   },
-  computed: {
-    randomQuestion() {
-      const num_1 = Math.round(Math.random() * 10);
-      const num_2 = Math.round(Math.random() * 10);
-      return `${num_1} + ${num_2} = ?`;
-    },
-  },
+  computed: {},
   methods: {
-    logIn() {
-      this.$refs.login_form.validate();
+    async logIn() {
+      if (!this.$refs.login_form.validate()) return;
+      this.loginBtnLoading = true;
+      const { data } = await axios.post(
+        "https://api.wavevo.com/userauth/login",
+        { email: this.userEmail, password: this.userPassw }
+      );
+      return console.log(data);
     },
+
     register() {
       this.$refs.register_form.validate();
+      this.registerBtnLoading = true;
     },
   },
 };
