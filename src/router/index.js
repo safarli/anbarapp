@@ -13,6 +13,7 @@ import Login from '@/views/Login'
 import Hesabatlar from '@/views/Hesabatlar'
 import NotFound from '@/views/NotFound'
 
+import BASE_PATH from '@/variables/urls'
 
 // 1st checks root paths children routes if not find goes to check other routes
 
@@ -104,27 +105,26 @@ export const router = new VueRouter({
   routes
 });
 
-router.beforeEach(async (to, from, next) => {
-  // const token = localStorage.getItem('mytoken');
-  const token = ""
-  let isAuthenticated = true;
+async function verifyToken() {
+  const token = localStorage.getItem("mytoken");
   try {
-    const { data } = await axios.post('https://anbar.wavevo.com/userauth/verify', {}, {
+    const { data } = await axios.post(BASE_PATH + '/userauth/verify', {}, {
       headers: {
         'Authorization': 'Bearer ' + token
       }
     })
-    if (data.msg) {
-      isAuthenticated = data.msg;
+    if (data.msg === true) {
+      return true
     }
+  } catch (e) {
+    console.log("Error occured:" + e);
   }
-  catch (e) {
-    console.log(e);
-  }
+  return false;
+}
 
-  console.log(isAuthenticated)
-
-  if (to.name !== 'Login' && !isAuthenticated) {
+router.beforeEach(async (to, from, next) => {
+  const authenticated = await verifyToken();
+  if (to.name !== 'Login' && !authenticated) {
     next({ name: 'Login' })
   }
   else {

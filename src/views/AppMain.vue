@@ -170,7 +170,6 @@ export default {
         },
         { title: "Barkod", icon: "mdi-barcode-scan", to: "/barcode" },
         { title: "Tənzimləmələr", icon: "mdi-cog", to: "/settings" },
-        { title: "Login", icon: "mdi-login", to: "/login" },
       ],
       brands: [
         { title: "IOS", icon: "mdi-apple" },

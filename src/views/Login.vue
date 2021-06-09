@@ -4,7 +4,7 @@
       style="width: 100%; height: 100%"
       class="d-flex justify-center align-center teal lighten-4"
     >
-      <v-card max-width="600px" elevation="14" class="pa-4">
+      <v-card max-width="400px" elevation="14" class="pa-2 ma-2">
         <v-card-title>İstifadəçi Girişi</v-card-title>
         <v-card-subtitle
           >Sistemə daxil olmaq üçün aşağıdakı sahələri doldurun</v-card-subtitle
@@ -24,13 +24,13 @@
               <v-form ref="login_form">
                 <v-text-field
                   label="E-mail"
-                  v-model="userEmail"
+                  v-model="loginCreds.email"
                   :rules="emailRules"
                   type="email"
                 ></v-text-field>
                 <v-text-field
                   label="Şifrə"
-                  v-model="userPassw"
+                  v-model="loginCreds.password"
                   counter="60"
                   type="password"
                   :rules="passwRules"
@@ -52,25 +52,23 @@
             <v-card-text>
               <v-form ref="register_form">
                 <v-text-field
-                  label="Ad"
+                  label="Ad Soyad"
+                  v-model="registerCreds.name"
                   :rules="adRules"
-                  counter="255"
-                ></v-text-field>
-                <v-text-field
-                  label="Soyad"
-                  :rules="soyadRules"
                   counter="255"
                 ></v-text-field>
                 <v-text-field
                   :rules="emailRules"
                   label="E-mail"
+                  v-model="registerCreds.email"
                   type="email"
                 ></v-text-field>
-                <v-tooltip bottom content-class="grey darken-4">
+                <v-tooltip top max-width="300" content-class="grey darken-2">
                   <template v-slot:activator="{ on, attrs }">
                     <v-text-field
                       v-bind="attrs"
                       v-on="on"
+                      v-model="registerCreds.password"
                       :rules="passwRules"
                       label="Şifrə"
                       type="password"
@@ -100,17 +98,24 @@
 </template>
 
 
-
 <script>
 import axios from "axios";
+import BASE_PATH from "@/variables/urls";
 
 export default {
   data() {
     return {
       loginBtnLoading: false,
       registerBtnLoading: false,
-      userEmail: "example@example.com",
-      userPassw: "123456",
+      loginCreds: {
+        email: "",
+        password: "",
+      },
+      registerCreds: {
+        name: "",
+        email: "",
+        password: "",
+      },
 
       emailRules: [
         (v) => !!v || "E-Poçt ünvanı daxil edin",
@@ -134,16 +139,47 @@ export default {
     async logIn() {
       if (!this.$refs.login_form.validate()) return;
       this.loginBtnLoading = true;
-      const { data } = await axios.post(
-        "https://api.wavevo.com/userauth/login",
-        { email: this.userEmail, password: this.userPassw }
-      );
-      return console.log(data);
+      const loginCreds = {
+        email: this.loginCreds["email"],
+        password: this.loginCreds["password"],
+      };
+      try {
+        const { data } = await axios.post(
+          BASE_PATH + "/userauth/login",
+          loginCreds
+        );
+        localStorage.setItem("mytoken", data.jwtToken);
+        this.$router.push("/");
+      } catch (e) {
+        console.log(e);
+      } finally {
+        // finally block always executes even after return and exception occurence, except process.exit(), system crash, VM crash etc
+        this.loginBtnLoading = false;
+      }
     },
 
-    register() {
-      this.$refs.register_form.validate();
+    async register() {
+      if (!this.$refs.register_form.validate()) return;
       this.registerBtnLoading = true;
+
+      const registerCreds = {
+        name: this.registerCreds["name"],
+        email: this.registerCreds["email"],
+        password: this.registerCreds["password"],
+      };
+
+      try {
+        const { data } = await axios.post(
+          BASE_PATH + "/userauth/register",
+          registerCreds
+        );
+        localStorage.setItem("mytoken", data.jwtToken);
+        this.$router.push("/");
+      } catch (e) {
+        console.log(e);
+      } finally {
+        this.registerBtnLoading = false;
+      }
     },
   },
 };
